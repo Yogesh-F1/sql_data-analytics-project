@@ -13,8 +13,8 @@ SQL Functions Used:
 ===============================================================================
 */
 
--- Analyse sales performance over time
--- Quick Date Functions
+-- Analyse sales performance over time using YEAR() and MONTH() functions
+-- Returns: Monthly sales metrics (total sales, customer count, quantity) by year and month
 SELECT
     YEAR(order_date) AS order_year,
     MONTH(order_date) AS order_month,
@@ -26,7 +26,8 @@ WHERE order_date IS NOT NULL
 GROUP BY YEAR(order_date), MONTH(order_date)
 ORDER BY YEAR(order_date), MONTH(order_date);
 
--- DATETRUNC()
+-- Same analysis using DATETRUNC() for cleaner date grouping
+-- Returns: Monthly aggregated sales metrics with full date values
 SELECT
     DATETRUNC(month, order_date) AS order_date,
     SUM(sales_amount) AS total_sales,
@@ -37,7 +38,8 @@ WHERE order_date IS NOT NULL
 GROUP BY DATETRUNC(month, order_date)
 ORDER BY DATETRUNC(month, order_date);
 
--- FORMAT()
+-- Same analysis using FORMAT() for formatted date output (Year-Month format)
+-- Returns: Sales metrics with formatted dates (e.g., 2024-Jan, 2024-Feb) for better readability
 SELECT
     FORMAT(order_date, 'yyyy-MMM') AS order_date,
     SUM(sales_amount) AS total_sales,
