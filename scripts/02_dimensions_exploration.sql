@@ -4,21 +4,22 @@
 Dimensions Exploration
 ===============================================================================
 Purpose:
-    - To explore the structure of dimension tables.
+    Explore the structure and content of dimension tables to understand 
+    available data for analysis.
 	
 SQL Functions Used:
-    - DISTINCT
-    - ORDER BY
+    - DISTINCT (eliminate duplicate values)
+    - ORDER BY (sort results alphabetically)
 ===============================================================================
 */
 
--- Retrieve a list of unique countries from which customers originate
+-- Query 1: List all unique customer countries (sorted alphabetically)
 SELECT DISTINCT 
     country 
 FROM gold.dim_customers
 ORDER BY country;
 
--- Retrieve a list of unique categories, subcategories, and products
+-- Query 2: List all unique product hierarchies (category > subcategory > product)
 SELECT DISTINCT 
     category, 
     subcategory, 
