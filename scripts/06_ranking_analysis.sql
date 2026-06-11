@@ -12,8 +12,8 @@ SQL Functions Used:
 ===============================================================================
 */
 
--- Which 5 products Generating the Highest Revenue?
--- Simple Ranking
+-- Query 1: Which 5 products are generating the highest revenue?
+-- Uses TOP clause for simplicity and performance
 SELECT TOP 5
     p.product_name,
     SUM(f.sales_amount) AS total_revenue
@@ -23,7 +23,8 @@ LEFT JOIN gold.dim_products p
 GROUP BY p.product_name
 ORDER BY total_revenue DESC;
 
--- Complex but Flexibly Ranking Using Window Functions
+-- Query 2: Top 5 products by revenue using Window Functions (more flexible for complex scenarios)
+-- Benefit: Allows filtering by rank without re-ordering, useful for pagination or additional conditions
 SELECT *
 FROM (
     SELECT
@@ -37,7 +38,8 @@ FROM (
 ) AS ranked_products
 WHERE rank_products <= 5;
 
--- What are the 5 worst-performing products in terms of sales?
+-- Query 3: What are the 5 worst-performing products in terms of sales?
+-- Identifies products with lowest revenue for potential discontinuation or optimization
 SELECT TOP 5
     p.product_name,
     SUM(f.sales_amount) AS total_revenue
@@ -47,7 +49,8 @@ LEFT JOIN gold.dim_products p
 GROUP BY p.product_name
 ORDER BY total_revenue;
 
--- Find the top 10 customers who have generated the highest revenue
+-- Query 4: Find the top 10 customers who have generated the highest revenue
+-- Helps identify VIP customers for targeted retention and engagement strategies
 SELECT TOP 10
     c.customer_key,
     c.first_name,
@@ -62,7 +65,8 @@ GROUP BY
     c.last_name
 ORDER BY total_revenue DESC;
 
--- The 3 customers with the fewest orders placed
+-- Query 5: The 3 customers with the fewest orders placed
+-- Identifies low-engagement customers for re-engagement campaigns
 SELECT TOP 3
     c.customer_key,
     c.first_name,
@@ -75,4 +79,4 @@ GROUP BY
     c.customer_key,
     c.first_name,
     c.last_name
-ORDER BY total_orders ;
+ORDER BY total_orders;
