@@ -24,8 +24,6 @@ A comprehensive collection of SQL scripts for data exploration, analytics, and r
 
 - **Segmentation & Reporting** — CASE WHEN buckets, Top N reports, part-to-whole calculations.
 
-**Two‑page summary document** — WHAT_WE_LEARNED_IN_DATA_ANALYTICS.docx (editable) and WHAT_WE_LEARNED_IN_DATA_ANALYTICS.pdf (print-ready).
-
 **Poster placeholder** — High-quality poster layout integrated into the cover page for easy replacement.
 
 **README and LICENSE** — This README plus a suggested license for reuse and attribution.
@@ -43,6 +41,7 @@ A comprehensive collection of SQL scripts for data exploration, analytics, and r
 - **Segmentation & Proportions** — Create buckets, compute part-to-whole percentages, and produce Top N reports.
 
 - **SQL Best Practices** — Clear examples of DISTINCT, GROUP BY, CASE WHEN, subqueries, and window functions.
+
 
 ## 🧾 Credits & License
 
