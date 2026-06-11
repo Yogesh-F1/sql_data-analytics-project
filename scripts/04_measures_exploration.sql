@@ -3,37 +3,39 @@
 Measures Exploration (Key Metrics)
 ===============================================================================
 Purpose:
-    - To calculate aggregated metrics (e.g., totals, averages) for quick insights.
-    - To identify overall trends or spot anomalies.
+    Calculate and explore aggregated business metrics (totals, averages) to 
+    gain quick insights and identify overall trends or anomalies.
 
-SQL Functions Used:
-    - COUNT(), SUM(), AVG()
+SQL Aggregate Functions Used:
+    COUNT()  - Count records or distinct values
+    SUM()    - Sum numeric values
+    AVG()    - Calculate average values
 ===============================================================================
 */
 
--- Find the Total Sales
+-- Total revenue generated
 SELECT SUM(sales_amount) AS total_sales FROM gold.fact_sales
 
--- Find how many items are sold
+-- Total quantity of items sold
 SELECT SUM(quantity) AS total_quantity FROM gold.fact_sales
 
--- Find the average selling price
+-- Average price per item
 SELECT AVG(price) AS avg_price FROM gold.fact_sales
 
--- Find the Total number of Orders
+-- Total number of orders (note: COUNT includes duplicates, DISTINCT eliminates them)
 SELECT COUNT(order_number) AS total_orders FROM gold.fact_sales
 SELECT COUNT(DISTINCT order_number) AS total_orders FROM gold.fact_sales
 
--- Find the total number of products
+-- Total unique products in catalog
 SELECT COUNT(product_name) AS total_products FROM gold.dim_products
 
--- Find the total number of customers
+-- Total unique customers in system
 SELECT COUNT(customer_key) AS total_customers FROM gold.dim_customers;
 
--- Find the total number of customers that has placed an order
+-- Customers who have placed at least one order
 SELECT COUNT(DISTINCT customer_key) AS total_customers FROM gold.fact_sales;
 
--- Generate a Report that shows all key metrics of the business
+-- Business Dashboard: All key metrics in a single report
 SELECT 'Total Sales' AS measure_name, SUM(sales_amount) AS measure_value FROM gold.fact_sales
 UNION ALL
 SELECT 'Total Quantity', SUM(quantity) FROM gold.fact_sales
