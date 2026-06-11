@@ -47,7 +47,7 @@ WITH base_query AS (
     FROM gold.fact_sales f
     LEFT JOIN gold.dim_products p
         ON f.product_key = p.product_key
-    WHERE order_date IS NOT NULL  -- only consider valid sales dates
+    WHERE order_date IS NOT NULL  -- exclude records with missing order dates
 ),
 
 product_aggregations AS (
@@ -66,6 +66,7 @@ SELECT
 	COUNT(DISTINCT customer_key) AS total_customers,
     SUM(sales_amount) AS total_sales,
     SUM(quantity) AS total_quantity,
+	-- Average selling price per unit (handles division by zero)
 	ROUND(AVG(CAST(sales_amount AS FLOAT) / NULLIF(quantity, 0)),1) AS avg_selling_price
 FROM base_query
 
@@ -88,6 +89,7 @@ SELECT
 	cost,
 	last_sale_date,
 	DATEDIFF(MONTH, last_sale_date, GETDATE()) AS recency_in_months,
+	-- Segment products by total revenue: High-Performer (>$50k), Mid-Range ($10k-$50k), Low-Performer (<$10k)
 	CASE
 		WHEN total_sales > 50000 THEN 'High-Performer'
 		WHEN total_sales >= 10000 THEN 'Mid-Range'
@@ -99,13 +101,13 @@ SELECT
 	total_quantity,
 	total_customers,
 	avg_selling_price,
-	-- Average Order Revenue (AOR)
+	-- Average Order Revenue (AOR): total sales divided by order count
 	CASE 
 		WHEN total_orders = 0 THEN 0
 		ELSE total_sales / total_orders
 	END AS avg_order_revenue,
 
-	-- Average Monthly Revenue
+	-- Average Monthly Revenue: total sales spread across product lifespan
 	CASE
 		WHEN lifespan = 0 THEN total_sales
 		ELSE total_sales / lifespan
