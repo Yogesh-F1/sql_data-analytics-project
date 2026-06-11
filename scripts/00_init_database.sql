@@ -4,12 +4,17 @@ Create Database and Schemas
 =============================================================
 Script Purpose:
     This script creates a new database named 'DataWarehouseAnalytics' after checking if it already exists. 
-    If the database exists, it is dropped and recreated. Additionally, this script creates a schema called gold
+    If the database exists, it is dropped and recreated. It then creates the 'gold' schema and populates
+    three dimension and fact tables with data from CSV files.
 	
 WARNING:
     Running this script will drop the entire 'DataWarehouseAnalytics' database if it exists. 
     All data in the database will be permanently deleted. Proceed with caution 
     and ensure you have proper backups before running this script.
+
+IMPORTANT - BEFORE RUNNING:
+    Update the file paths in the BULK INSERT statements (lines 84, 96, 108) to match your local directory.
+    Example: 'C:\your-local-path\datasets\csv-files\gold.dim_customers.csv'
 */
 
 USE master;
@@ -35,6 +40,7 @@ GO
 CREATE SCHEMA gold;
 GO
 
+-- Dimension table: Customers
 CREATE TABLE gold.dim_customers(
 	customer_key int,
 	customer_id int,
@@ -49,6 +55,7 @@ CREATE TABLE gold.dim_customers(
 );
 GO
 
+-- Dimension table: Products
 CREATE TABLE gold.dim_products(
 	product_key int ,
 	product_id int ,
@@ -64,6 +71,7 @@ CREATE TABLE gold.dim_products(
 );
 GO
 
+-- Fact table: Sales
 CREATE TABLE gold.fact_sales(
 	order_number nvarchar(50),
 	product_key int,
@@ -77,6 +85,8 @@ CREATE TABLE gold.fact_sales(
 );
 GO
 
+-- Load data from CSV files
+-- NOTE: Update the file paths below to match your local directory structure
 TRUNCATE TABLE gold.dim_customers;
 GO
 
