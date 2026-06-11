@@ -3,17 +3,18 @@
 Cumulative Analysis
 ===============================================================================
 Purpose:
-    - To calculate running totals or moving averages for key metrics.
-    - To track performance over time cumulatively.
-    - Useful for growth analysis or identifying long-term trends.
+    - Calculate running totals or moving averages for key metrics
+    - Track performance metrics cumulatively over time
+    - Identify long-term trends and growth patterns
 
 SQL Functions Used:
     - Window Functions: SUM() OVER(), AVG() OVER()
 ===============================================================================
 */
 
--- Calculate the total sales per month 
--- and the running total of sales over time 
+-- Aggregate sales by year and calculate running totals and moving averages
+-- Running Total: Cumulative sum of sales from the beginning through each year
+-- Moving Average: Average price across all periods up to each year
 SELECT
 	order_date,
 	total_sales,
