@@ -1,0 +1,45 @@
+Summary of the content (concise, presentation-ready)
+Title
+
+Top: SQL Project Workflow
+ETL (Extract, Transform, Load) — Prepare and structure data: data architecture, integration, cleansing, load, and modeling.
+
+EDA (Exploratory Data Analysis) — Understand the data: basic queries, data profiling, simple aggregations, distinct values, date ranges.
+
+Advanced Analytics — Answer business questions: complex queries, window functions, subqueries, reports, and predictive/segmentation analysis.
+
+Middle: Exploratory vs Advanced Analytics (side-by-side)
+Exploratory Data Analysis (blue)
+
+Database Exploration: inspect tables, columns, and data types.
+
+Dimensions Exploration: DISTINCT values, categories, and date min/max.
+
+Measures Exploration: SUM, AVG, counts, big-number identification.
+
+Date Exploration: MIN/MAX, DATEDIFF, time ranges.
+
+Ranking & Magnitude: Top N, bottom N, and magnitude checks.
+
+Advanced Analytics (orange)
+
+Change-Over-Time Trends: totals and averages by time period.
+
+Cumulative Analysis: running totals, moving averages using window functions.
+
+Performance Analysis: current vs target comparisons, year-over-year deltas.
+
+Part-to-Whole / Proportional: percentage of total by category.
+
+Segmentation & Reporting: CASE WHEN categorization, segment buckets, Top N reporting.
+
+Bottom: Key Learning Outcomes (icons + one-line descriptions)
+Dimensions & Measures — Differentiate categorical vs numeric; choose aggregations appropriately.
+
+Trends & Time Analysis — Detect patterns and seasonality; use date functions and windowing.
+
+Performance Metrics — Compare current values to targets and historical baselines.
+
+Segmentation & Proportions — Group data, create buckets, and compute part-to-whole percentages.
+
+SQL Techniques — DISTINCT, GROUP BY, window functions, CASE WHEN, subqueries, and aggregations.
