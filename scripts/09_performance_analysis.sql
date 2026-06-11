@@ -3,19 +3,20 @@
 Performance Analysis (Year-over-Year, Month-over-Month)
 ===============================================================================
 Purpose:
-    - To measure the performance of products, customers, or regions over time.
-    - For benchmarking and identifying high-performing entities.
-    - To track yearly trends and growth.
+    - Measure product, customer, or regional performance trends over time.
+    - Identify and benchmark high-performing entities.
+    - Track yearly trends and growth patterns.
 
 SQL Functions Used:
-    - LAG(): Accesses data from previous rows.
-    - AVG() OVER(): Computes average values within partitions.
-    - CASE: Defines conditional logic for trend analysis.
+    - LAG(): Accesses sales data from the previous year for comparison.
+    - AVG() OVER(): Calculates average sales for each product across all years.
+    - CASE: Determines whether performance is above, below, or at average.
 ===============================================================================
 */
 
-/* Analyze the yearly performance of products by comparing their sales 
-to both the average sales performance of the product and the previous year's sales */
+/* Calculate total yearly sales per product, then compare each year to:
+   1) The product's average sales across all years
+   2) The previous year's sales (Year-over-Year growth) */
 WITH yearly_product_sales AS (
     SELECT
         YEAR(f.order_date) AS order_year,
@@ -33,20 +34,21 @@ SELECT
     order_year,
     product_name,
     current_sales,
+    -- Compare current year to product average
     AVG(current_sales) OVER (PARTITION BY product_name) AS avg_sales,
-    current_sales - AVG(current_sales) OVER (PARTITION BY product_name) AS diff_avg,
+    current_sales - AVG(current_sales) OVER (PARTITION BY product_name) AS diff_from_avg,
     CASE 
         WHEN current_sales - AVG(current_sales) OVER (PARTITION BY product_name) > 0 THEN 'Above Avg'
         WHEN current_sales - AVG(current_sales) OVER (PARTITION BY product_name) < 0 THEN 'Below Avg'
-        ELSE 'Avg'
-    END AS avg_change,
-    -- Year-over-Year Analysis
-    LAG(current_sales) OVER (PARTITION BY product_name ORDER BY order_year) AS py_sales,
-    current_sales - LAG(current_sales) OVER (PARTITION BY product_name ORDER BY order_year) AS diff_py,
+        ELSE 'At Avg'
+    END AS performance_vs_avg,
+    -- Compare current year to previous year (Year-over-Year analysis)
+    LAG(current_sales) OVER (PARTITION BY product_name ORDER BY order_year) AS prior_year_sales,
+    current_sales - LAG(current_sales) OVER (PARTITION BY product_name ORDER BY order_year) AS yoy_change,
     CASE 
         WHEN current_sales - LAG(current_sales) OVER (PARTITION BY product_name ORDER BY order_year) > 0 THEN 'Increase'
         WHEN current_sales - LAG(current_sales) OVER (PARTITION BY product_name ORDER BY order_year) < 0 THEN 'Decrease'
         ELSE 'No Change'
-    END AS py_change
+    END AS yoy_trend
 FROM yearly_product_sales
 ORDER BY product_name, order_year;
