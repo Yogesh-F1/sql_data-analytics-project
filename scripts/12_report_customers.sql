@@ -32,7 +32,7 @@ CREATE VIEW gold.report_customers AS
 
 WITH base_query AS(
 /*---------------------------------------------------------------------------
-1) Base Query: Retrieves core columns from tables
+1) Base Query: Retrieves core columns from fact and dimension tables
 ---------------------------------------------------------------------------*/
 SELECT
 f.order_number,
@@ -52,6 +52,7 @@ WHERE order_date IS NOT NULL)
 , customer_aggregation AS (
 /*---------------------------------------------------------------------------
 2) Customer Aggregations: Summarizes key metrics at the customer level
+   Including total orders, sales, quantity, products, and customer lifespan
 ---------------------------------------------------------------------------*/
 SELECT 
 	customer_key,
@@ -93,13 +94,13 @@ DATEDIFF(month, last_order_date, GETDATE()) AS recency,
 total_orders,
 total_sales,
 total_quantity,
-total_products
+total_products,
 lifespan,
--- Compuate average order value (AVO)
+-- Calculate average order value (AOV): total sales divided by number of orders
 CASE WHEN total_sales = 0 THEN 0
 	 ELSE total_sales / total_orders
 END AS avg_order_value,
--- Compuate average monthly spend
+-- Calculate average monthly spend: total sales divided by customer lifespan
 CASE WHEN lifespan = 0 THEN total_sales
      ELSE total_sales / lifespan
 END AS avg_monthly_spend
